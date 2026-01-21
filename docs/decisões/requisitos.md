@@ -3,7 +3,6 @@
 ## 1. Cadastro
 
 - O sistema deve permitir o cadastro de usuários.
-- O sistema deve permitir o cadastro de vendedores.
 - O sistema deve permitir o cadastro de produtos.
 - O sistema deve permitir o cadastro de pedidos.
 

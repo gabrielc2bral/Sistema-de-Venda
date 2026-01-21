@@ -1,15 +1,17 @@
 package com.gabrieldev.apiVendas.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import org.springframework.validation.annotation.Validated;
+import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "usuarios")
+@Getter
+@Setter
+@NoArgsConstructor
 @AllArgsConstructor
-@Data
-public class usuario {
+public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Poderia colocar um uuid no futuro
     private long id;
@@ -24,5 +26,8 @@ public class usuario {
     private String email;
 
     private String senha;
+
+    @OneToMany(mappedBy = "usuario")
+    private List<Pedido> pedidos;
 
 }
