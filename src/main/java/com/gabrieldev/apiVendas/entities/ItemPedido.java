@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 public class ItemPedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "pedido_id", nullable = false)

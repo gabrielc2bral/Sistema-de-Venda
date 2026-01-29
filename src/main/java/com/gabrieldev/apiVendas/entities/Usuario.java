@@ -14,7 +14,7 @@ import java.util.List;
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Poderia colocar um uuid no futuro
-    private long id;
+    private Long id;
 
     private String nomeCompleto;
 
@@ -27,7 +27,10 @@ public class Usuario {
 
     private String senha;
 
-    @OneToMany(mappedBy = "usuario")
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<Pedido> pedidos;
 
+    public String getNomeCompleto() {
+        return nomeCompleto;
+    }
 }

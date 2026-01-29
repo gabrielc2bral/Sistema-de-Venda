@@ -1,5 +1,7 @@
 # UsuarioService – Regras de Negócio
 
+## Objetivo: Criar e atualizar Usuários
+
 ## Entrada
 - Nome do usuário 
 - Email
@@ -17,7 +19,6 @@
 - O CPF é obrigatório
 - O CPF deve ser válido
 - Não pode existir outro usuário com o mesmo CPF
-  
 
 Erro:
 - CPF_INVALIDO
