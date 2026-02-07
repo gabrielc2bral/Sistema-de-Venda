@@ -19,4 +19,8 @@ public class UsuarioService {
         usuarioRepository.save(usuario);
         return mapper.toDTO(usuario);
     }
+
+    public UsuarioDtoResponse buscarUsuario(Long id){
+        return mapper.toDTO(usuarioRepository.findById(id).orElseThrow());
+    }
 }

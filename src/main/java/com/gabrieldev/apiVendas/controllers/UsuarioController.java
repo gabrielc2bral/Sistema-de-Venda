@@ -21,4 +21,9 @@ public class UsuarioController {
         return ResponseEntity.status(HttpStatus.CREATED).body(usuarioDtoResponse);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<UsuarioDtoResponse> buscarUsuario(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(usuarioService.buscarUsuario(id));
+    }
+
 }
