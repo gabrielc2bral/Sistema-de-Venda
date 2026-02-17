@@ -1,13 +1,10 @@
 package com.gabrieldev.apiVendas.dto.response;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-import java.util.List;
-
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class UsuarioDtoResponse {
     private Long id;
     private String nomeCompleto;

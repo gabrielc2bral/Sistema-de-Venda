@@ -1,11 +1,36 @@
-INSERT INTO usuarios (nome_completo, cpf, tipo_de_conta, email, senha) VALUES
-('Gabriel Cabral', '39939581285', 'CLIENTE', 'gabriel@email.com', 'senha123'),
-('Ana Souza', '36216736979', 'CLIENTE', 'ana@email.com', 'senha123'),
-('Carlos Silva', '12345678901', 'CLIENTE', 'carlos@email.com', 'senha123'),
-('Mariana Lima', '98765432100', 'CLIENTE', 'mariana@email.com', 'senha123'),
-('João Pedro', '74185296314', 'CLIENTE', 'joao@email.com', 'senha123'),
-('Fernanda Rocha', '85274196320', 'CLIENTE', 'fernanda@email.com', 'senha123'),
-('Lucas Almeida', '15975348620', 'VENDEDOR', 'lucas.admin@email.com', 'admin123'),
-('Beatriz Costa', '95135748621', 'CLIENTE', 'beatriz@email.com', 'senha123'),
-('Rafael Martins', '75315984263', 'CLIENTE', 'rafael@email.com', 'senha123'),
-('Administrador Sistema', '11122233344', 'VENDEDOR', 'admin@sistema.com', 'admin123');
+INSERT INTO usuarios (nome_completo, cpf, tipo_de_conta, email, senha, role) VALUES
+('Gabriel Cabral', '39939581285', 'CLIENTE', 'gabriel@email.com',
+'$2a$10$wH8Yk6K9nQv1xZL2mR3eUeTz5bJ4cG7sP0dLqFhYt8VnXc2KpQm9O',
+'ROLE_USER'),
+
+('Ana Souza', '36216736979', 'CLIENTE', 'ana@email.com',
+'$2a$10$YkP3mL8nQz4xT2vB6cR7eUjFh9KpLwX1sD0gHqRtYuVmNc8ZpQw2E',
+'ROLE_USER'),
+
+('Carlos Silva', '12345678901', 'CLIENTE', 'carlos@email.com',
+'$2a$10$Qm8LpZ4xYt2vBn6Rc7eUjFh9KpLwX1sD0gHqRtYuVmNc8ZpQw2EkP3m',
+'ROLE_USER'),
+
+('Mariana Lima', '98765432100', 'CLIENTE', 'mariana@email.com',
+'$2a$10$LpZ4xYt2vBn6Rc7eUjFh9KpLwX1sD0gHqRtYuVmNc8ZpQw2EkP3mQm8',
+'ROLE_USER'),
+
+('João Pedro', '74185296314', 'CLIENTE', 'joao@email.com',
+'$2a$10$Z4xYt2vBn6Rc7eUjFh9KpLwX1sD0gHqRtYuVmNc8ZpQw2EkP3mQm8Lp',
+'ROLE_USER'),
+
+('Fernanda Rocha', '85274196320', 'CLIENTE', 'fernanda@email.com',
+'$2a$10$Xt2vBn6Rc7eUjFh9KpLwX1sD0gHqRtYuVmNc8ZpQw2EkP3mQm8LpZ4',
+'ROLE_USER'),
+
+('Lucas Almeida', '15975348620', 'VENDEDOR', 'lucas@email.com',
+'$2a$10$t2vBn6Rc7eUjFh9KpLwX1sD0gHqRtYuVmNc8ZpQw2EkP3mQm8LpZ4xY',
+'ROLE_USER'),
+
+('Beatriz Costa', '95135748621', 'CLIENTE', 'beatriz@email.com',
+'$2a$10$vBn6Rc7eUjFh9KpLwX1sD0gHqRtYuVmNc8ZpQw2EkP3mQm8LpZ4xYt2',
+'ROLE_USER'),
+
+('Rafael Martins', '75315984263', 'CLIENTE', 'rafael@email.com',
+'$2a$10$Bn6Rc7eUjFh9KpLwX1sD0gHqRtYuVmNc8ZpQw2EkP3mQm8LpZ4xYt2v',
+'ROLE_USER');

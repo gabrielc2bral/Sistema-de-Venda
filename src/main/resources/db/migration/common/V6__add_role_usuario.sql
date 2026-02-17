@@ -1,0 +1,8 @@
+ALTER TABLE usuarios
+ADD COLUMN role VARCHAR(50);
+
+UPDATE usuarios
+SET role = 'ROLE_USER';
+
+ALTER TABLE usuarios
+ALTER COLUMN role SET NOT NULL;

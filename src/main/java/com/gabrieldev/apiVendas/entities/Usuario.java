@@ -1,5 +1,6 @@
 package com.gabrieldev.apiVendas.entities;
 
+import com.gabrieldev.apiVendas.entities.enun.Role;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,6 +27,8 @@ public class Usuario {
     private String email;
 
     private String senha;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<Pedido> pedidos;
