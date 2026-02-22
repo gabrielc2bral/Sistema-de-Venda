@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
@@ -31,16 +32,17 @@ public class PedidoService {
         if (dtoRequest.getItemPedidoList() == null || dtoRequest.getItemPedidoList().isEmpty()) {
             throw new RuntimeException("Não é possível criar um pedido sem itens.");
         }
-        Pedido pedido = pedidoMapper.toEntity(dtoRequest);
+        Pedido pedido = new Pedido();
         pedido.setUsuario(usuario);
         pedido.setCriadoEm(LocalDateTime.now());
-        for (ItemPedido item : pedido.getItemPedidos()) {
-            System.out.println("Pedido dentro do item: " + item.getPedido());
-        }
+
         for(ItemPedidoDtoRequest itemDto : dtoRequest.getItemPedidoList()){
             Produto produto = produtoRepository.findById(itemDto.getProdutoID()).orElseThrow(() -> new EntityNotFoundException("Produto Não encontrado"));
-            ItemPedido itemPedido = itemPedidoMapper.toEntity(itemDto);
+            ItemPedido itemPedido = new ItemPedido();
             itemPedido.setProduto(produto);
+            itemPedido.setQuantidade(itemDto.getQuantidade());
+            itemPedido.setPrecoUnitario(BigDecimal.valueOf(itemDto.getPrecoUnitario()));
+
             pedido.adicionarItem(itemPedido);
         }
         pedidoRespository.save(pedido);
