@@ -18,6 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
@@ -27,25 +29,39 @@ public class PedidoService {
     private final PedidoMapper pedidoMapper;
     private final ItemPedidoMapper itemPedidoMapper;
 
-    @Transactional
-    public PedidoDtoResponse criarPedido(PedidoDtoRequest dtoRequest, Usuario usuario){
-        if (dtoRequest.getItemPedidoList() == null || dtoRequest.getItemPedidoList().isEmpty()) {
-            throw new RuntimeException("Não é possível criar um pedido sem itens.");
-        }
-        Pedido pedido = new Pedido();
-        pedido.setUsuario(usuario);
-        pedido.setCriadoEm(LocalDateTime.now());
+        @Transactional
+        public PedidoDtoResponse criarPedido(PedidoDtoRequest dtoRequest, Usuario usuario){
+            if (dtoRequest.getItemPedidoList() == null || dtoRequest.getItemPedidoList().isEmpty()) {
+                throw new RuntimeException("Não é possível criar um pedido sem itens.");
+            }
+            Pedido pedido = new Pedido();
+            pedido.setUsuario(usuario);
+            pedido.setCriadoEm(LocalDateTime.now());
+            Map<Long, Integer> itensAgrupados = new HashMap<>();
+            for(ItemPedidoDtoRequest itemDto : dtoRequest.getItemPedidoList()){
+                Long id = itemDto.getProdutoID();
+                Integer qtd = itemDto.getQuantidade();
+                if (itensAgrupados.containsKey(id)){
+                    itensAgrupados.put(id, itensAgrupados.get(id) + qtd);
+                }else {
+                    itensAgrupados.put(id, qtd);
+                }
+            }
 
-        for(ItemPedidoDtoRequest itemDto : dtoRequest.getItemPedidoList()){
-            Produto produto = produtoRepository.findById(itemDto.getProdutoID()).orElseThrow(() -> new EntityNotFoundException("Produto Não encontrado"));
-            ItemPedido itemPedido = new ItemPedido();
-            itemPedido.setProduto(produto);
-            itemPedido.setQuantidade(itemDto.getQuantidade());
-            itemPedido.setPrecoUnitario(BigDecimal.valueOf(itemDto.getPrecoUnitario()));
+            for (Map.Entry<Long, Integer> entry : itensAgrupados.entrySet()){
+                Long produtoId = entry.getKey();
+                Integer quantidadeTotal = entry.getValue();
 
-            pedido.adicionarItem(itemPedido);
+                Produto produto = produtoRepository.findById(produtoId).orElseThrow(() -> new EntityNotFoundException("Produto Não encontrado"));
+                if (produto.getQuantidade() < quantidadeTotal) throw new RuntimeException("Estoque insuficiente para o produto: " + produto.getNome());
+                produto.setQuantidade(produto.getQuantidade() - quantidadeTotal);
+                ItemPedido itemPedido = new ItemPedido();
+                itemPedido.setProduto(produto);
+                itemPedido.setQuantidade(quantidadeTotal);
+                itemPedido.setPrecoUnitario(produto.getPreco());
+                pedido.adicionarItem(itemPedido);
+            }
+            pedidoRespository.save(pedido);
+            return pedidoMapper.toDTO(pedido);
         }
-        pedidoRespository.save(pedido);
-        return pedidoMapper.toDTO(pedido);
-    }
 }
