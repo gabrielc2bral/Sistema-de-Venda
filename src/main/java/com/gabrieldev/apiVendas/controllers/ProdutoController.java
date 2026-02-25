@@ -2,9 +2,10 @@ package com.gabrieldev.apiVendas.controllers;
 
 import com.gabrieldev.apiVendas.dto.request.ProdutoDtoRequest;
 import com.gabrieldev.apiVendas.dto.response.ProdutoDtoResponse;
+import com.gabrieldev.apiVendas.mappers.ProdutoMapper;
 import com.gabrieldev.apiVendas.services.ProdutoService;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,9 +13,10 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/produtos")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ProdutoController {
-    private ProdutoService produtoService;
+    private final ProdutoService produtoService;
+    private final ProdutoMapper produtoMapper;
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<ProdutoDtoResponse> criarProduto(@Valid @RequestBody ProdutoDtoRequest dtoRequest){
@@ -23,6 +25,7 @@ public class ProdutoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ProdutoDtoResponse> buscarProduto(@PathVariable Long id) {
-        return ResponseEntity.status(HttpStatus.OK).body(produtoService.buscarProduto(id));
+        ProdutoDtoResponse produtoDtoResponse = produtoMapper.toDTO(produtoService.buscarProduto(id));
+        return ResponseEntity.status(HttpStatus.OK).body(produtoDtoResponse);
     }
 }

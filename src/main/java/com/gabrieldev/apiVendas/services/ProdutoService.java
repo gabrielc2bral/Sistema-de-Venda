@@ -24,9 +24,9 @@ public class ProdutoService {
         return mapper.toDTO(produto);
     }
     
-    public ProdutoDtoResponse buscarProduto (Long id){
+    public Produto buscarProduto (Long id){
         Produto produto = produtoRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Produto não existe"));
-        return mapper.toDTO(produto);
+        return produto;
     }
 
 }

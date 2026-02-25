@@ -1,9 +1,12 @@
 package com.gabrieldev.apiVendas.exceptions;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.time.Instant;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -13,5 +16,22 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
                 .body(e.getMessage());
+    }
+
+    // Aprendendo esse novo padrão de exception
+    @ExceptionHandler(InvalidLoginException.class)
+    public ResponseEntity<StandardError> invalidLogin(InvalidLoginException e, HttpServletRequest request) {
+        String error = "Erro de autenticação";
+        HttpStatus status = HttpStatus.UNAUTHORIZED;
+
+        StandardError err = new StandardError(
+                Instant.now(),
+                status.value(),
+                error,
+                e.getMessage(),
+                request.getRequestURI()
+        );
+
+        return ResponseEntity.status(status).body(err);
     }
 }

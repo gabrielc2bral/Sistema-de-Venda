@@ -5,6 +5,7 @@ import com.gabrieldev.apiVendas.dto.response.UsuarioDtoResponse;
 import com.gabrieldev.apiVendas.entities.Usuario;
 import com.gabrieldev.apiVendas.entities.enun.Role;
 import com.gabrieldev.apiVendas.exceptions.EntityNotFoundException;
+import com.gabrieldev.apiVendas.exceptions.InvalidLoginException;
 import com.gabrieldev.apiVendas.mappers.UsuarioMapper;
 import com.gabrieldev.apiVendas.repositories.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
@@ -43,9 +44,11 @@ public class UsuarioService {
     }
     public String login(String email, String senhaDigitada) {
 
-        Usuario usuario = usuarioRepository.findByEmail(email).orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
+        Usuario usuario = usuarioRepository.findByEmail(email).orElseThrow(() -> new InvalidLoginException(""));
 
         String senhaDoBanco = usuario.getSenha();
+
+       if (!passwordEncoder.matches(senhaDigitada,senhaDoBanco)) throw  new InvalidLoginException("");
 
         return jwtService.generateToken(usuario.getEmail(), String.valueOf(usuario.getRole()));
     }

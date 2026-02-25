@@ -20,13 +20,14 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
 public class PedidoService {
     private final PedidoRespository pedidoRespository;
-    private final ProdutoRepository produtoRepository;
+    private final ProdutoService produtoService;
     private final UsuarioService usuarioService;
     private final PedidoMapper pedidoMapper;
     private final ItemPedidoMapper itemPedidoMapper;
@@ -56,7 +57,7 @@ public class PedidoService {
                 Long produtoId = entry.getKey();
                 Integer quantidadeTotal = entry.getValue();
 
-                Produto produto = produtoRepository.findById(produtoId).orElseThrow(() -> new EntityNotFoundException("Produto Não encontrado"));
+                Produto produto = produtoService.buscarProduto(produtoId);
                 if (produto.getQuantidade() < quantidadeTotal) throw new RuntimeException("Estoque insuficiente para o produto: " + produto.getNome());
                 produto.setQuantidade(produto.getQuantidade() - quantidadeTotal);
                 ItemPedido itemPedido = new ItemPedido();
@@ -67,5 +68,9 @@ public class PedidoService {
             }
             pedidoRespository.save(pedido);
             return pedidoMapper.toDTO(pedido);
+        }
+        public List<PedidoDtoResponse> buscarPedido(Usuario usuario){
+            List<Pedido> entidades = pedidoRespository.findByUsuarioComItens(usuario.getId());
+            return pedidoMapper.toDTOList(entidades);
         }
 }
