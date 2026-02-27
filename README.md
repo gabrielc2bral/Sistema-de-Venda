@@ -62,5 +62,6 @@ PGADMIN_PASSWORD=admin123
 
 ## Mini Blog 
 
+- 26/02/2026 - Mudando a estrutura dos endpoints para o usuário autenticado. Cada pedido sendo exibido pelo endpoint "/me/pedidos" e ".../{id}" para separar os itens e deixar o sistema clean.  
 - 25/02/2026 - Criei um endpoint para pegar um resumo dos pedidos e dos itens de cada usuário logado no sistema. Futuramente penso em separar em dois endpoints.
-- 24/02/206 - Estou aprendendo um novo padrão de Exeption usando a classe "StandardError".
+- 24/02/2026 - Estou aprendendo um novo padrão de Exeption usando a classe "StandardError".
