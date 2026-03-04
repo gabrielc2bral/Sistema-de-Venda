@@ -55,7 +55,7 @@ public class PedidoService {
         for (Map.Entry<Long, Integer> entry : itensAgrupados.entrySet()) {
             Long produtoId = entry.getKey();
             Integer quantidadeTotal = entry.getValue();
-            if (quantidadeTotal == 0) throw new RuntimeException();
+            if (quantidadeTotal <= 0) throw new RuntimeException("Quantidade invalida");
             Produto produto = produtoService.buscarProduto(produtoId);
             if (produto.getQuantidade() < quantidadeTotal)
                 throw new EstoqueInsuficienteException("Estoque insuficiente para o produto: " + produto.getNome());

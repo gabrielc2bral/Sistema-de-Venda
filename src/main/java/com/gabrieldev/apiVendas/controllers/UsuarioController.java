@@ -32,8 +32,8 @@ public class UsuarioController {
         return ResponseEntity.status(HttpStatus.OK).body(pedidoService.buscarPedidos(usuario));
     }
 
-    @GetMapping("/pedidos/{id}/itens-pedido")
-    public ResponseEntity<PedidoDtoResponseResumo> buscarPedidosComOsItens(@RequestParam Long pedidoID, Authentication authentication) {
+    @GetMapping("/pedidos/{pedidoID}/itens-pedido")
+    public ResponseEntity<PedidoDtoResponseResumo> buscarPedidosComOsItens(@PathVariable Long pedidoID, Authentication authentication) {
         Usuario usuario = (Usuario) authentication.getPrincipal();
         return ResponseEntity.status(HttpStatus.OK).body(pedidoService.buscarPedidoComItens(pedidoID, usuario.getId()));
     }
